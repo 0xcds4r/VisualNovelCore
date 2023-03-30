@@ -1,0 +1,85 @@
+
+-------------------------------------------------------------------------
+[00:20:27] Initializing Visual Novel Core..
+[00:20:27] Initializing Events..
+[00:20:27] Initializing Render..
+[00:20:27] Initializing MenuSystem..
+[00:20:27] Initializing ScriptLoader..
+[00:20:27] Initializing Scenes..
+[00:20:27] Initializing SceneView..
+[00:20:28] Using default display flags
+[00:20:28] Using default surface flags
+[00:20:28] Initializing Sprites..
+[00:20:28] New script loaded: main_menu (path: data/main_menu.json)
+[00:20:28] New script loaded: pause_menu (path: data/pause_menu.json)
+[00:20:28] New script loaded: scenes (path: data/script.json)
+[00:20:28] Loading scene: intro..
+[00:20:28] Scene with name: intro successfully loaded!
+
+-------------------------------------------------------------------------
+[00:22:37] Initializing Visual Novel Core..
+[00:22:37] Initializing Events..
+[00:22:37] Initializing Render..
+[00:22:37] Initializing MenuSystem..
+[00:22:37] Initializing ScriptLoader..
+[00:22:37] Initializing Scenes..
+[00:22:37] Initializing SceneView..
+[00:22:37] Using default display flags
+[00:22:37] Using default surface flags
+[00:22:37] Initializing Sprites..
+[00:22:37] New script loaded: main_menu (path: data/main_menu.json)
+[00:22:37] New script loaded: pause_menu (path: data/pause_menu.json)
+[00:22:37] New script loaded: scenes (path: data/script.json)
+[00:22:37] Loading scene: intro..
+[00:22:37] Scene with name: intro successfully loaded!
+
+-------------------------------------------------------------------------
+[00:22:42] Initializing Visual Novel Core..
+[00:22:42] Initializing Events..
+[00:22:42] Initializing Render..
+[00:22:42] Initializing MenuSystem..
+[00:22:42] Initializing ScriptLoader..
+[00:22:42] Initializing Scenes..
+[00:22:42] Initializing SceneView..
+[00:22:42] Using default display flags
+[00:22:42] Using default surface flags
+[00:22:42] Initializing Sprites..
+[00:22:42] New script loaded: main_menu (path: data/main_menu.json)
+[00:22:42] New script loaded: pause_menu (path: data/pause_menu.json)
+[00:22:42] New script loaded: scenes (path: data/script.json)
+[00:22:42] Loading scene: intro..
+[00:22:42] Scene with name: intro successfully loaded!
+
+-------------------------------------------------------------------------
+[00:22:44] Initializing Visual Novel Core..
+[00:22:44] Initializing Events..
+[00:22:44] Initializing Render..
+[00:22:44] Initializing MenuSystem..
+[00:22:44] Initializing ScriptLoader..
+[00:22:44] Initializing Scenes..
+[00:22:44] Initializing SceneView..
+[00:22:44] Using default display flags
+[00:22:44] Using default surface flags
+[00:22:44] Initializing Sprites..
+[00:22:44] New script loaded: main_menu (path: data/main_menu.json)
+[00:22:44] New script loaded: pause_menu (path: data/pause_menu.json)
+[00:22:44] New script loaded: scenes (path: data/script.json)
+[00:22:44] Loading scene: intro..
+[00:22:44] Scene with name: intro successfully loaded!
+
+-------------------------------------------------------------------------
+[00:23:35] Initializing Visual Novel Core..
+[00:23:35] Initializing Events..
+[00:23:35] Initializing Render..
+[00:23:35] Initializing MenuSystem..
+[00:23:35] Initializing ScriptLoader..
+[00:23:35] Initializing Scenes..
+[00:23:35] Initializing SceneView..
+[00:23:35] Using default display flags
+[00:23:35] Using default surface flags
+[00:23:35] Initializing Sprites..
+[00:23:35] New script loaded: main_menu (path: data/main_menu.json)
+[00:23:35] New script loaded: pause_menu (path: data/pause_menu.json)
+[00:23:35] New script loaded: scenes (path: data/script.json)
+[00:23:35] Loading scene: intro..
+[00:23:35] Scene with name: intro successfully loaded!

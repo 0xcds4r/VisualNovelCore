@@ -1,0 +1,31 @@
+{
+  "settings": {
+    "speakerAlign": "left",
+    "textAlign": "left",
+    "textPos.x": 0.11,
+    "textPos.y": 0.94,
+    "speakerPos.x": 0.10,
+    "speakerPos.y": 0.91,
+    "screenMult": 1,
+    "showBox": 1,
+    "fontPath": "assets/arial.ttf",
+    "fontSize": 21
+  },
+  "scenes": {
+    "intro": {
+      "background": "assets/bg/Street_Spring_Evening.png",
+      "characters": {
+        "choro": {
+          "image": "assets/characters/choro.png",
+          "position": [50, 550]
+        }
+      },
+      "dialogue": [
+        {
+          "speaker": "Я",
+          "text": "Куда же мне пойти?"
+        }
+      ]
+    }
+  }
+}
