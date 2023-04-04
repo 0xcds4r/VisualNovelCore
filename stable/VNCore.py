@@ -4,7 +4,9 @@ from Render import Render
 from Scenes import *
 from MenuSystem import MenuSystem
 from Log import Log
+from LuaWrapper import *
 import pygame
+import os
 
 class VNCore():
 	def __init__(self):
@@ -15,6 +17,13 @@ class VNCore():
 		self.scriptLoader = ScriptLoader(self)
 		self.scenes = Scenes(self)
 		self.running = False
+		self.luapath = 'scripts/'
+		self.luadirectories = os.listdir(self.luapath)
+		for file in self.luadirectories:
+			self.luaWrapper = LuaWrapper(self, self.luapath + file)
+
+	def getLuaWrapper(self):
+		return self.luaWrapper
 
 	def getEvents(self):
 		return self.events
@@ -48,7 +57,7 @@ class VNCore():
 
 def print_about():
 	Log.printL("\n-------------------------------------------------------------------------")
-	Log.printL("\t[bold white]Visual Novel Core v0.2-stable[/]", True)
+	Log.printL("\t[bold white]Visual Novel Core v0.3-stable[/]", True)
 	Log.printL("\t[bold white]Author -> 0xcds4r[/]", True)
 
 	Log.printL("\t[bold white]itch.io ->[/] [link=https://0xcds4r.itch.io/visual-novel-core]https://0xcds4r.itch.io/visual-novel-core[/link]", True)

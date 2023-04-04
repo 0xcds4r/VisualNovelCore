@@ -10,6 +10,7 @@ class RenderFlags:
 	DONT_LOAD_DEFAULT_FONT = 111
 	USE_DEFAULT_DISPLAY_FLAGS = 444
 	USE_DEFAULT_SURFACE_FLAGS = 222
+	DONT_AUTO_RENDER_IMAGES = 999
 
 class Sprites():
 	def __init__(self, core):
@@ -89,6 +90,7 @@ class Render():
 		self.images = {}
 		self.displayFlags = 0
 		self.surfaceFlags = 0
+		self.renderQueue = {}
 
 	def hasDisplayFlags(self):
 		if not int(self.displayFlags) == 0:
@@ -170,12 +172,43 @@ class Render():
 		self.clock.tick(60)
 		
 		self.getDisplay().fill((255, 255, 255))
-		self.getSprites().draw()
+
+		if not self.getFlagState(RenderFlags.DONT_AUTO_RENDER_IMAGES):
+			self.getSprites().draw()
+			self.renderImages()
+
+		self.renderRQ()
 
 		pygame.display.flip()
 
 		pygame.display.update()
 		return True
+
+	def renderRQ(self):
+		for data_name in list(self.renderQueue):
+			surface = self.renderQueue[data_name][0]
+			pos = self.renderQueue[data_name][1]
+			self.renderSurface(surface, pos)
+			del self.renderQueue[data_name]
+
+	def resizeImage(self, image):
+		img_rect = image.get_rect()
+		image = pygame.transform.scale(image, (img_rect.width, img_rect.height))
+		return image
+
+	def setSizeImage(self, image, w, h):
+		image = pygame.transform.scale(image, (w, h))
+		return image
+
+	def addSurfaceToRenderQueue(self, tag, _surface, pos=(0,0)):
+		self.renderQueue[tag] = (_surface, pos)
+
+	def renderSurface(self, _surface, pos=(0,0)):
+		self.getDisplay().blit(_surface, pos)
+
+	def renderImages(self):
+		for data in self.images:
+			self.renderSurface(self.images[data], (0,0))
 
 	def loadDefaultFont(self):
 		Log.print("Loading default font..")

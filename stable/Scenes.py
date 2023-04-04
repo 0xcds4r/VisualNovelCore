@@ -13,6 +13,9 @@ class Scene():
 	def getData(self):
 		return self.data
 
+	def getDataValue(self, key):
+		return self.data[key]
+
 	def getName(self):
 		return self.name
 		
@@ -26,7 +29,7 @@ class SceneView():
 		self.show_scene = state
 
 	def isSceneShowing(self):
-		return self.show_scene == True
+		return self.show_scene
 
 	def getCurrentScene(self):
 		return self.currentScene

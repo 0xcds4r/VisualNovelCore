@@ -26,6 +26,21 @@
           "text": "Куда же мне пойти?"
         }
       ]
+    },
+    "goal": {
+      "background": "assets/bg/Street_Spring_Day.png",
+      "characters": {
+        "choro": {
+          "image": "assets/characters/choro.png",
+          "position": [50, 550]
+        }
+      },
+      "dialogue": [
+        {
+          "speaker": "Я",
+          "text": "Куда же мне пойти?"
+        }
+      ]
     }
   }
 }

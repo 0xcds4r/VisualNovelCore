@@ -1,5 +1,6 @@
 from datetime import datetime, date
 from rich import print
+from LuaWrapper import *
 
 class Log:
 	def print(message, without_dump_file = False):
