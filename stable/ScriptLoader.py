@@ -46,7 +46,7 @@ class ScriptLoader():
 			scriptData = json.load(f)
 
 		if scriptData is not None:
-			Log.print(f"New script loaded: {script_tag} (path: {file_path})")
+			Log.print(f"New json-script loaded: {script_tag} (path: {file_path})")
 			self.scripts.append((script_tag, scriptData))
 			return scriptData
 

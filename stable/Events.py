@@ -11,6 +11,24 @@ class Events:
         self.key_down_times = {}
         self.core = core
     
+    def registerKeyDownEvent(self, key, code):
+        handler = lambda: self.core.callLuaEventInAll(code)
+        if handler:
+            self.key_down_handlers[key] = handler
+
+    def registerKeyUpEvent(self, key, code):
+        handler = lambda: self.core.callLuaEventInAll(code)
+        if handler:
+            self.key_up_handlers[key] = handler
+
+    def registerLongKeyDownEvent(self, key, code, delay=0.5, interval=0.5):
+        handler = lambda: self.core.callLuaEventInAll(code)
+        if handler:
+            self.long_key_down_handlers[key] = handler
+            self.key_down_times[key] = 0
+            self.long_key_down_delay = delay
+            self.long_key_down_interval = interval
+
     def register_key_down_handler(self, key, handler):
         self.key_down_handlers[key] = handler
     

@@ -178,6 +178,7 @@ class Render():
 			self.renderImages()
 
 		self.renderRQ()
+		self.getCore().callLuaEventInAll("onGameRender")
 
 		pygame.display.flip()
 
@@ -291,6 +292,8 @@ class Render():
 			self.fonts.append((font_name, font_size, font))
 		else:
 			Log.print(f"Error while loading font: {font_name}")
+
+		return font
 
 	def getCore(self):
 		return self.core

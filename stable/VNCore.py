@@ -17,10 +17,33 @@ class VNCore():
 		self.scriptLoader = ScriptLoader(self)
 		self.scenes = Scenes(self)
 		self.running = False
-		self.luapath = 'scripts/'
-		self.luadirectories = os.listdir(self.luapath)
-		for file in self.luadirectories:
-			self.luaWrapper = LuaWrapper(self, self.luapath + file)
+		self.script_dir = 'scripts/'
+		self.lua_scripts = []
+		self.loadLuaScripts()
+
+	def loadLuaScripts(self):
+		for file in os.listdir(self.script_dir):
+			if file.endswith('.lua'):
+				script_path = os.path.join(self.script_dir, file)
+				script = LuaWrapper(self, file, script_path)
+				self.lua_scripts.append((file, script))
+
+	def callLuaEvent(self, name, eventName, *args):
+		for data in self.lua_scripts:
+			script_name = data[0]
+			script = data[1]
+			if script_name == name:
+				func = script.lua.globals()[eventName]
+				if func is not None:
+					func(*args)
+
+	def callLuaEventInAll(self, eventName, *args):
+		for data in self.lua_scripts:
+			script_name = data[0]
+			script = data[1]
+			func = script.lua.globals()[eventName]
+			if func is not None:
+				func(*args)
 
 	def getLuaWrapper(self):
 		return self.luaWrapper
@@ -44,6 +67,7 @@ class VNCore():
 		return self.running
 
 	def startGame(self):
+		self.callLuaEventInAll("onGameStart")
 		self.running = True
 
 	def quitGame(self):
@@ -57,7 +81,7 @@ class VNCore():
 
 def print_about():
 	Log.printL("\n-------------------------------------------------------------------------")
-	Log.printL("\t[bold white]Visual Novel Core v0.3-stable[/]", True)
+	Log.printL("\t[bold white]Visual Novel Core v0.4-stable[/]", True)
 	Log.printL("\t[bold white]Author -> 0xcds4r[/]", True)
 
 	Log.printL("\t[bold white]itch.io ->[/] [link=https://0xcds4r.itch.io/visual-novel-core]https://0xcds4r.itch.io/visual-novel-core[/link]", True)
