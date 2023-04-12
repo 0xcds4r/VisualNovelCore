@@ -13,8 +13,14 @@ class Scene():
 	def getData(self):
 		return self.data
 
+	def getCustomDataValue(self, _data, key):
+		return _data[key]
+
 	def getDataValue(self, key):
 		return self.data[key]
+
+	def getDataLength(self, data):
+		return len(data)
 
 	def getName(self):
 		return self.name

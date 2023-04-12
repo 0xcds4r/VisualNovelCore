@@ -1,12 +1,15 @@
 from Events import Events
 from ScriptLoader import ScriptLoader
 from Render import Render
-from Scenes import *
+from Scenes import Scenes, Scene, SceneView
 from MenuSystem import MenuSystem
 from Log import Log
-from LuaWrapper import *
+from LuaWrapper import LuaWrapper
+from Audio import AudioManager
+from FileManager import FileManager
 import pygame
 import os
+import threading
 
 class VNCore():
 	def __init__(self):
@@ -16,10 +19,18 @@ class VNCore():
 		self.menuSystem = MenuSystem(self) 
 		self.scriptLoader = ScriptLoader(self)
 		self.scenes = Scenes(self)
+		self.audioManager = AudioManager(self)
+		self.fileManager = FileManager()
 		self.running = False
 		self.script_dir = 'scripts/'
 		self.lua_scripts = []
 		self.loadLuaScripts()
+
+	def getFileManager(self):
+		return self.fileManager
+
+	def getAudioManager(self):
+		return self.audioManager
 
 	def loadLuaScripts(self):
 		for file in os.listdir(self.script_dir):
@@ -72,16 +83,58 @@ class VNCore():
 
 	def quitGame(self):
 		pygame.quit()
+		sys.exit()
+
+	def onMouseClickEvent(self, event):
+		self.callLuaEventInAll("onTouchEvent", event.button, event.pos[0], event.pos[1])
+
+	def onMouseMoveEvent(self, mouse_pos):
+		self.callLuaEventInAll("onTouchMoveEvent", mouse_pos[0], mouse_pos[1])
 
 	def process(self):
-		if self.getEvents() is not None:
-			self.running = self.getEvents().handle()
-		if self.getRender() is not None:
-			self.running = self.getRender().renderAll()
+		while self.running:
+			# handle events
+			event_failed = False
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					self.running = False
+					event_failed = True
+					break
+
+				if event.type == pygame.MOUSEBUTTONDOWN:
+					self.onMouseClickEvent(event)
+
+				if event.type == pygame.MOUSEMOTION:
+					mouse_pos = pygame.mouse.get_pos()
+					self.onMouseMoveEvent(mouse_pos)
+
+				if not self.getEvents().handle(event):
+					self.running = False
+					event_failed = True
+					break
+
+			# render all
+			render_failed = not self.getRender().renderAll()
+			if event_failed or render_failed:
+				self.running = False
+
+			# set default framerate to 60
+			self.render.clock.tick(60)
+
+		self.quitGame()
+
+	def start_process(self):
+		self.process()
+
+	def setTitle(self, title='VNCore Game'):
+		pygame.display.set_caption(title)
+
+	def setIcon(self, icon_img):
+		pygame.display.set_icon(icon_img)
 
 def print_about():
 	Log.printL("\n-------------------------------------------------------------------------")
-	Log.printL("\t[bold white]Visual Novel Core v0.4-stable[/]", True)
+	Log.printL("\t[bold white]Visual Novel Core v0.5-stable[/]", True)
 	Log.printL("\t[bold white]Author -> 0xcds4r[/]", True)
 
 	Log.printL("\t[bold white]itch.io ->[/] [link=https://0xcds4r.itch.io/visual-novel-core]https://0xcds4r.itch.io/visual-novel-core[/link]", True)

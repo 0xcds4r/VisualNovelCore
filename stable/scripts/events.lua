@@ -29,7 +29,8 @@ end
 
 function onSpaceClickEvent()
     printLog("onSpaceClickEvent called without args")
-    core.callLuaEvent(MAIN_SCRIPT, "nextScene") -- call nextScene in main.lua
+
+    core.callLuaEvent(MAIN_SCRIPT, "onUpdateDialogueScene") -- call nextScene in main.lua
     -- Made for convenience, so as not to do everything in one script
 end
 

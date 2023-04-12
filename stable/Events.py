@@ -1,4 +1,3 @@
-
 from Log import Log
 import pygame
 import time
@@ -21,7 +20,7 @@ class Events:
         if handler:
             self.key_up_handlers[key] = handler
 
-    def registerLongKeyDownEvent(self, key, code, delay=0.5, interval=0.5):
+    def registerLongKeyDownEvent(self, key, code, delay=0.5, interval=1):
         handler = lambda: self.core.callLuaEventInAll(code)
         if handler:
             self.long_key_down_handlers[key] = handler
@@ -44,25 +43,21 @@ class Events:
     def test(self):
     	print("test work events")
 
-    def handle(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return False
-            elif event.type == pygame.KEYDOWN:
-                if event.key in self.key_down_handlers:
-                    self.key_down_handlers[event.key]()
-                if event.key in self.long_key_down_handlers:
-                    self.key_down_times[event.key] = pygame.time.get_ticks()
-            elif event.type == pygame.KEYUP:
-                if event.key in self.key_up_handlers:
-                    self.key_up_handlers[event.key]()
-                if event.key in self.long_key_down_handlers:
-                    self.key_down_times[event.key] = 0
-
-        for key, time in self.key_down_times.items():
-            if time != 0 and pygame.time.get_ticks() - time > self.long_key_down_delay:
-                if key in self.long_key_down_handlers:
-                    if (pygame.time.get_ticks() - time - self.long_key_down_delay) % self.long_key_down_interval == 0:
-                        self.long_key_down_handlers[key]()
-
+    def handle(self, event):
+        keyDownActive = None
+        if event.type == pygame.KEYDOWN:
+            if event.key in self.key_down_handlers:
+                self.key_down_handlers[event.key]()
+                keyDownActive = event.key
+            if event.key in self.long_key_down_handlers:
+                self.long_key_down_handlers[event.key]()
+                self.key_down_times[event.key] = 0
+            return True
+        if event.type == pygame.KEYUP:
+            if event.key in self.key_up_handlers:
+                self.key_up_handlers[event.key]()
+                keyDownActive = None
+            if event.key in self.long_key_down_handlers:
+                self.key_down_times[event.key] = 0
+            return True
         return True

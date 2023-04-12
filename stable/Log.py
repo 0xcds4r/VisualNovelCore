@@ -1,6 +1,6 @@
 from datetime import datetime, date
 from rich import print
-from LuaWrapper import *
+from LuaWrapper import LuaWrapper
 
 class Log:
 	def print(message, without_dump_file = False):
@@ -32,3 +32,6 @@ class Log:
 		with open(path, 'a') as file:
 			file.write(msg + "\n")
 			print(msg)
+
+	def emplace_tag(message):
+		msg = message

@@ -17,13 +17,17 @@
       "characters": {
         "choro": {
           "image": "assets/characters/choro.png",
-          "position": [50, 550]
+          "position": [300, 300]
         }
       },
       "dialogue": [
         {
-          "speaker": "Я",
-          "text": "Куда же мне пойти?"
+          "speaker": "You",
+          "text": "Hello"
+        },
+        {
+          "speaker": "You",
+          "text": "how,are you?"
         }
       ]
     },
@@ -32,13 +36,21 @@
       "characters": {
         "choro": {
           "image": "assets/characters/choro.png",
-          "position": [50, 550]
+          "position": [900, 300]
         }
       },
       "dialogue": [
         {
-          "speaker": "Я",
-          "text": "Куда же мне пойти?"
+          "speaker": "Choro",
+          "text": "Hello, I am fine! How are you?"
+        },
+        {
+          "speaker": "You",
+          "text": "Me too! Bye!"
+        },
+        {
+          "speaker": "Choro",
+          "text": "Bye"
         }
       ]
     }
