@@ -11,11 +11,55 @@ import pygame
 import os
 import sys
 import threading
+import multiprocessing
 import time
+
+VNC_VERSION = "0.6.1"
+VNC_VERSION_CODE = 61
+VNC_VERSION_TAG = "patch"
 
 class VNCore():
 	def __init__(self):
 		Log.print("Initializing Visual Novel Core..")
+		self.script_dir = 'scripts/'
+		self.lua_scripts = []
+		self.fps = 60
+		self.render_thread = threading.Thread(target=self.graphicProcess, daemon=True)
+		self.running = False
+		self.init_classes()
+
+	def getVersion(self):
+		return VNC_VERSION
+
+	def getVersionTag(self):
+		return VNC_VERSION_TAG
+
+	def getVersionCode(self):
+		return VNC_VERSION_CODE
+
+	def checkVersionCode(self, code):
+		if code <= 0:
+			return -2
+
+		if code > self.getVersionCode():
+			return -1
+
+		if code == self.getVersionCode():
+			return 1
+
+		if code < self.getVersionCode():
+			return 0
+
+	def setFPS(self, fps):
+		self.fps = fps
+
+	def getFPS(self):
+		return self.fps
+
+	def getFPSDeltaTime(self):
+		return 1/self.fps
+
+	def init_classes(self):
 		self.events = Events(self)
 		self.render = Render(self)
 		self.menuSystem = MenuSystem(self) 
@@ -23,12 +67,7 @@ class VNCore():
 		self.scenes = Scenes(self)
 		self.audioManager = AudioManager(self)
 		self.fileManager = FileManager()
-		self.script_dir = 'scripts/'
-		self.lua_scripts = []
 		self.loadLuaScripts()
-
-		self.running = False
-		
 
 	def getFileManager(self):
 		return self.fileManager
@@ -89,10 +128,14 @@ class VNCore():
 	def isGameRunning(self):
 		return self.running
 
+	def graphicProcess(self):
+		while self.running:
+			self.getRender().renderAll()
+
 	def startGame(self):
 		self.callLuaEventInAll("onGameStart")
 		self.running = True
-		self.start_process()
+		self.process()
 
 	def quitGame(self):
 		pygame.quit()
@@ -107,39 +150,42 @@ class VNCore():
 	def onMouseMoveEvent(self, mouse_pos):
 		self.callLuaEventInAll("onTouchMoveEvent", mouse_pos[0], mouse_pos[1])
 
-	def process(self):
-		# handle events
-		event_failed = False
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT:
-				self.running = False
-				event_failed = True
-				break
-
-			if event.type == pygame.MOUSEBUTTONDOWN:
-				self.onMouseClickEvent(event)
-
-			if event.type == pygame.MOUSEBUTTONUP:
-				self.onMouseKeyUp(event)
-
-			if event.type == pygame.MOUSEMOTION:
-				mouse_pos = pygame.mouse.get_pos()
-				self.onMouseMoveEvent(mouse_pos)
-
-			if not self.getEvents().handle(event):
-				self.running = False
-				event_failed = True
-				break
-
-		# render all
-		render_failed = not self.getRender().renderAll()
-		if event_failed or render_failed:
-			self.running = False
-
-	def start_process(self):
+	def eventProcess(self):
 		while self.running:
-			self.process()
+			# Обработка событий Pygame здесь
+			event_failed = False
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					self.running = False
+					event_failed = True
+					break
+				if event.type == pygame.MOUSEBUTTONDOWN:
+					self.onMouseClickEvent(event)
+
+				if event.type == pygame.MOUSEBUTTONUP:
+					self.onMouseKeyUp(event)
+
+				if event.type == pygame.MOUSEMOTION:
+					mouse_pos = pygame.mouse.get_pos()
+					self.onMouseMoveEvent(mouse_pos)
+
+				if not self.getEvents().handle(event):
+					self.running = False
+					event_failed = True
+					break
+
+			if event_failed:
+				break
+
+			pygame.time.Clock().tick(self.fps)
+
 		self.quitGame()
+
+	def process(self):
+		if not self.render_thread or not self.render_thread.is_alive():
+			self.render_thread = threading.Thread(target=self.graphicProcess, daemon=True)
+			self.render_thread.start()
+		self.eventProcess()
 
 	def setTitle(self, title='VNCore Game'):
 		pygame.display.set_caption(title)
@@ -149,7 +195,7 @@ class VNCore():
 
 def print_about():
 	Log.printL("\n-------------------------------------------------------------------------")
-	Log.printL("\t[bold white]Visual Novel Core v0.6-stable[/]", True)
+	Log.printL(f"\t[bold white]Visual Novel Core v{VNC_VERSION}-{VNC_VERSION_TAG}[/]", True)
 	Log.printL("\t[bold white]Author -> 0xcds4r[/]", True)
 
 	Log.printL("\t[bold white]itch.io ->[/] [link=https://0xcds4r.itch.io/visual-novel-core]https://0xcds4r.itch.io/visual-novel-core[/link]", True)

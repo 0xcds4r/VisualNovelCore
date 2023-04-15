@@ -13,9 +13,10 @@ import os
 class LuaWrapper:
 	def __init__(self, core, script_name, script_path):
 		from Log import Log
-		Log.print("Initializing LuaWrapper..")
+		Log.print("Initializing LuaWrapper..", script_name)
 		self.lua = LuaRuntime(unpack_returned_tuples=True)
 		self.script_path = script_path
+		self.core = core
 		SDKLua.setCore(core)
 
 		key_constants = {}
@@ -57,11 +58,46 @@ class LuaWrapper:
 
 		self.final = self.begin + file_content + '\nend\n'
 
-		# print(self.final)
-
+		self.checkAPI(self.final)
 		self.interface = self.lua.eval(self.final)
 		self.interface(SDKLua)
-		# print(self.get_lua_function_code(self.final, "onTouchEvent"))
+
+	def existsInCode(self, tag, str_code):
+		code_lines = str_code.split('\n')
+		for code_line in code_lines:
+			if tag in code_line:
+				if not code_line.strip().startswith("--"):
+					return True
+		return False
+
+	def checkAPI(self, str_code):
+		from Log import Log
+		if not self.existsInCode("API_VERSION", str_code):
+			Log.print(f"API_VERSION not found! (add in script: API_VERSION = {str(core.getVersionCode())})")
+			self.core.quitGame()
+			return
+
+		code_lines = str_code.split('\n')
+		for code_line in code_lines:
+			if "API_VERSION" in code_line:
+				api_version_line = code_line.replace(" ", "").split('=')
+				number = ''
+				for char in api_version_line[1]:
+					if char.isdigit():
+						number += char
+					else:
+						break
+				api_version = int(number)
+				if core.checkVersionCode(api_version) == 1:
+					# Log.print(f"API_VERSION is {str(api_version)}")
+					pass
+				else:
+					if core.checkVersionCode(api_version) < 0:
+						Log.print(f"Invalid API_VERSION: {str(api_version)} (API version of the core now is -> {str(core.getVersionCode())})")
+					elif core.checkVersionCode(api_version) == 0:
+						Log.print(f"Deprecated API_VERSION {str(api_version)} (API version of the core now is -> {str(core.getVersionCode())})")
+					self.core.quitGame()
+
 
 	def open_script(self, script_path):
 		current_path = os.getcwd()
@@ -74,6 +110,9 @@ class LuaWrapper:
 			included_content = ""
 			for line in lines:
 				if '@include' in line:
+					if line.strip().startswith("--"):
+						# print(f"commented include: {line}")
+						continue
 					match = re.search(r"'(.+?)'", line)
 					if match:
 						# Extract the text inside single quotes
@@ -81,6 +120,10 @@ class LuaWrapper:
 						included_path = "scripts/" + text + ".lua"
 						included_content += self.open_script(included_path) + "\n"
 				elif '@method' in line:
+					if line.strip().startswith("--"):
+						# print(f"commented method: {line}")
+						continue
+
 					match = re.search(r"'(.+?)'", line)
 					if match:
 						text = match.group(1)
@@ -98,6 +141,10 @@ class LuaWrapper:
 						else:
 							pass
 				elif '@pyimport' in line:
+					if line.strip().startswith("--"):
+						# print(f"commented pyimport: {line}")
+						continue
+
 					match = re.search(r"'(.+?)'", line)
 					if match:
 						text = match.group(1)

@@ -2,6 +2,7 @@
 -- SCRIPT_NAME = "VisualNovelDemo"
 SCRIPT_AUTHOR = "0xcds4r"
 SCRIPT_VERSION = "v0.3"
+API_VERSION = 61 -- actual api version is 61
 GAME_TITLE = "VNC DEMO"
 GAME_ICON = "assets/icon256.png"
 
@@ -14,14 +15,14 @@ GAME_ICON = "assets/icon256.png"
 @include 'utils/SceneUtils'
 @include 'utils/ButtonUtils'
 @include 'utils/FileUtils'
-@include 'utils/SaveUtils'
+@include 'utils/SaveUtils' -- save utils
 
 -- import python modules
 @pyimport 'random:rnd'
 @pyimport 'datetime'
 
 -- import methods from test.lua
-@method 'utils/test, ClassTest.func_class_test, ClassTest.func_test'
+@method 'utils/test, ClassTest.func_class_test, ClassTest.func_test' -- test
 
 -------------------------------------- UTILS --------------------------------------
 local fm = FileManager.new()
@@ -75,7 +76,7 @@ function initButtons()
 
     -- wtf, why i'm not using addText? idk, i like this shit
     pSecondButton:setId("secBtn")
-    pSecondButton:setText("VNCore 0.6-stable")
+    pSecondButton:setText("VNCore "..core.getVersion().."-"..core.getVersionTag())
     pSecondButton:setPos(SCREEN_WIDTH/2.5, SCREEN_HEIGHT/1.5)
     pSecondButton:setSize(200, 50)
     pSecondButton:setTextColor(0,0,0,255)
@@ -100,6 +101,9 @@ function onGameStart()
     VN.putVar("game_state", 1)
     VN.putVar("test", 1)
     VN.delVar("test")
+
+    core.getRender().notify("Welcome to Visual Novel Core DEMO!", (1920 / 2 - 5) - (core.getRender().getTextManager().getTextWidth("Welcome to Visual Novel Core DEMO!", "assets/arial.ttf", 44) / 2 - 5), 1080 / 2, 255, 255, 255, 255, 25,0,0,255, "assets/arial.ttf", 44, 2500)
+    core.getRender().notify("VNCore developed by 0xcds4r", (1920 / 2 - 5) - (core.getRender().getTextManager().getTextWidth("Welcome to Visual Novel Core DEMO!", "assets/arial.ttf", 44) / 2 - 5), 1080 / 1.8, 255, 255, 255, 255, 25,0,0,0, "assets/arial.ttf", 44, 2550)
 
     -- Set the folder path to "data"
     -- fm:set_folder_path("data")

@@ -176,7 +176,7 @@ class Render():
 					self.notifications.remove(notify)
 
 	def renderAll(self):
-		dt = self.clock.tick(60) / 1000.0
+		dt = self.clock.tick(self.getCore().getFPS()) / 1000.0
 		self.getAnimationManager().update(dt)
 		self.getDisplay().fill((255, 255, 255))
 
