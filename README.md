@@ -23,4 +23,5 @@ Python 3.11.2
 Compile exe:
 ---
 pip install pyinstaller
+
 pyinstaller VNCore_stable.spec
