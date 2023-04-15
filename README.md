@@ -24,4 +24,4 @@ Compile exe:
 ---
 pip install pyinstaller
 
-pyinstaller VNCore_stable.spec
+pyinstaller VNCore_Game.spec
