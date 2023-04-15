@@ -113,7 +113,7 @@ class LuaWrapper:
 					if match:
 						# Extract the text inside single quotes
 						text = match.group(1)
-						included_path = "scripts/" + text + ".lua"
+						included_path = "./scripts/" + text + ".lua"
 						included_content += self.open_script(included_path) + "\n"
 				elif '@method' in line:
 					if line.strip().startswith("--"):
@@ -124,7 +124,7 @@ class LuaWrapper:
 					if match:
 						text = match.group(1)
 						res = text.replace(' ', '').split(',')
-						included_path = "scripts/" + res[0] + ".lua"
+						included_path = "./scripts/" + res[0] + ".lua"
 						if len(res) == 2:
 							method_code = self.get_lua_function_code(included_content, self.open_script(included_path), res[1])
 							included_content += method_code + "\n"
