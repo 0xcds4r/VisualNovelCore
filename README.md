@@ -22,6 +22,12 @@ Python 3.11.2
 
 Compile exe:
 ---
+cd stable
+
 pip install pyinstaller
 
 pyinstaller VNCore_Game.spec
+
+--
+or double-click to -> 'build-exe.bat'
+--
