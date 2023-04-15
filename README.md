@@ -16,6 +16,7 @@ python main.py
 
 ---
 Python 3.11.2
+---
 
 
 Compile exe:
