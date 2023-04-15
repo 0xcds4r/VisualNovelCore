@@ -149,7 +149,7 @@ class VNCore():
 
 def print_about():
 	Log.printL("\n-------------------------------------------------------------------------")
-	Log.printL("\t[bold white]Visual Novel Core v0.5-stable[/]", True)
+	Log.printL("\t[bold white]Visual Novel Core v0.6-stable[/]", True)
 	Log.printL("\t[bold white]Author -> 0xcds4r[/]", True)
 
 	Log.printL("\t[bold white]itch.io ->[/] [link=https://0xcds4r.itch.io/visual-novel-core]https://0xcds4r.itch.io/visual-novel-core[/link]", True)
