@@ -28,6 +28,6 @@ pip install pyinstaller
 
 pyinstaller VNCore_Game.spec
 
---
+***
 or double-click to -> 'build-exe.bat'
---
+***
