@@ -12,8 +12,8 @@ import os
 
 class LuaWrapper:
 	def __init__(self, core, script_name, script_path):
-		from Log import Log
-		Log.print("Initializing LuaWrapper..", script_name)
+		# from Log import Log
+		# Log.print("Initializing LuaWrapper..")
 		self.lua = LuaRuntime(unpack_returned_tuples=True)
 		self.script_path = script_path
 		self.core = core
@@ -100,10 +100,6 @@ class LuaWrapper:
 
 
 	def open_script(self, script_path):
-		current_path = os.getcwd()
-		current_path = current_path.replace("\\", "/")
-		script_path = current_path + "/" + script_path
-		# print(script_path)
 		with open(script_path, 'r') as f:
 			file_content = f.read()
 			lines = file_content.splitlines()

@@ -11,7 +11,6 @@ import pygame
 import os
 import sys
 import threading
-import multiprocessing
 import time
 
 VNC_VERSION = "0.6.1"
@@ -21,7 +20,10 @@ VNC_VERSION_TAG = "patch"
 class VNCore():
 	def __init__(self):
 		Log.print("Initializing Visual Novel Core..")
-		self.script_dir = 'scripts/'
+		current_path = "."
+		# current_path = os.path.dirname(sys.executable)
+		# current_path = current_path.replace("\\", "/")
+		self.script_dir = current_path + "/" + "scripts/"
 		self.lua_scripts = []
 		self.fps = 60
 		self.render_thread = threading.Thread(target=self.graphicProcess, daemon=True)
@@ -185,6 +187,8 @@ class VNCore():
 		if not self.render_thread or not self.render_thread.is_alive():
 			self.render_thread = threading.Thread(target=self.graphicProcess, daemon=True)
 			self.render_thread.start()
+
+		# self.graphicProcess()
 		self.eventProcess()
 
 	def setTitle(self, title='VNCore Game'):
