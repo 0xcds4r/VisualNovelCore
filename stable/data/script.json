@@ -1,0 +1,105 @@
+{
+  "settings": {
+    "speakerAlign": "left",
+    "textAlign": "left",
+    "textPos.x": 0.11,
+    "textPos.y": 0.94,
+    "speakerPos.x": 0.10,
+    "speakerPos.y": 0.91,
+    "screenMult": 1,
+    "showBox": 1,
+    "fontPath": "assets/arial.ttf",
+    "fontSize": 21
+  },
+  "scenes": {
+    "intro": {
+      "background": "assets/bg/Street_Spring_Day.png",
+      "characters": {
+        "rodion": {
+          "image": "assets/characters/choro.png",
+          "position": [
+            900,
+            300
+          ]
+        },
+        "police": {
+          "image": "assets/characters/police.png",
+          "position": [
+            300,
+            300
+          ]
+        }
+      },
+      "dialogue": [
+        {
+          "speaker": "Rodion",
+          "text": "My name is Rodion Raskolnikov. I am a former student who lives in St. Petersburg."
+        },
+        {
+          "speaker": "Rodion",
+          "text": "I am poor and I have committed a crime. I killed an old woman and her sister with an axe."
+        },
+        {
+          "speaker": "Rodion",
+          "text": "I did it because I believed that I was an extraordinary man who was above the law."
+        }
+      ]
+    },
+    "murder": {
+      "background": "assets/bg/Street_Spring_Rain.png",
+      "characters": {
+        "police": {
+          "image": "assets/characters/police.png",
+          "position": [
+            300,
+            300
+          ]
+        }
+      },
+      "dialogue": [
+        {
+          "speaker": "Police",
+          "text": "We have reason to believe that you are responsible for the murder of the pawnbroker and her sister."
+        },
+        {
+          "speaker": "Rodion",
+          "text": "I did it. I killed them both."
+        },
+        {
+          "speaker": "Police",
+          "text": "Why did you do it?"
+        },
+        {
+          "speaker": "Rodion",
+          "text": "I did it because I believed that I was an extraordinary man who was above the law."
+        }
+      ]
+    },
+    "trial": {
+      "background": "assets/bg/Street_Spring_Night.png",
+      "characters": {
+        "judge": {
+          "image": "assets/characters/judge.png",
+          "position": [
+            400,
+            300
+          ]
+        }
+      },
+      "dialogue": [
+        {
+          "speaker": "Judge",
+          "text": "Rodion Raskolnikov, you have been found guilty of the murder of the pawnbroker and her sister."
+        },
+        {
+          "speaker": "Judge",
+          "text": "Your sentence is eight years of hard labor in Siberia."
+        },
+        {
+          "speaker": "Rodion",
+          "text": "I accept my punishment. I have realized that I was wrong to think that I was an extraordinary man."
+        }
+      ]
+    }
+  }
+}

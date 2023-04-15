@@ -1,0 +1,54 @@
+{
+  "background_color": [0, 0, 0],
+  "background_image": {
+    "file": "assets/background.png",
+    "position": [0, 0]
+  },
+  "buttons": [
+    {
+      "text": "Resume",
+      "font_file": "assets/arial.ttf",
+      "font_size": 24,
+      "font_color": [255, 255, 255],
+      "rect": [200, 200, 200, 50],
+      "background_color": [5, 5, 5, 190],
+      "hover_color": [225, 225, 225, 111]
+    },
+    {
+      "text": "Load Game",
+      "font_file": "assets/arial.ttf",
+      "font_size": 24,
+      "font_color": [255, 255, 255],
+      "rect": [200, 300, 200, 50],
+      "background_color": [5, 5, 5, 190],
+      "hover_color": [225, 225, 225, 111]
+    },
+    {
+      "text": "Save Game",
+      "font_file": "assets/arial.ttf",
+      "font_size": 24,
+      "font_color": [255, 255, 255],
+      "rect": [200, 400, 200, 50],
+      "background_color": [5, 5, 5, 190],
+      "hover_color": [225, 225, 225, 111]
+    },
+    {
+      "text": "Settings",
+      "font_file": "assets/arial.ttf",
+      "font_size": 24,
+      "font_color": [255, 255, 255],
+      "rect": [200, 500, 200, 50],
+      "background_color": [5, 5, 5, 190],
+      "hover_color": [225, 225, 225, 111]
+    },
+    {
+      "text": "Exit",
+      "font_file": "assets/arial.ttf",
+      "font_size": 24,
+      "font_color": [255, 255, 255],
+      "rect": [200, 600, 200, 50],
+      "background_color": [5, 5, 5, 190],
+      "hover_color": [225, 0, 0, 111]
+    }
+  ]
+}

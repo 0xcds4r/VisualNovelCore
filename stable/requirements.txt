@@ -1,0 +1,5 @@
+DateTime==5.1
+lupa==1.14.1
+pygame==2.3.0
+pytest==7.2.2
+rich==13.3.3
