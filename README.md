@@ -10,7 +10,7 @@ Download test build (Win): https://drive.google.com/file/d/1TudiuaH7vTd5MRKU7p_u
 ---
 pip install -r requirements.txt
 ---
-python Game.py
+python main.py
 ---
 Python 3.11.2
 ---
