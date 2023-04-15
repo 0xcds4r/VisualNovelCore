@@ -8,7 +8,9 @@ Download test build (Win) [0.6-stable]: https://drive.google.com/file/d/1TudiuaH
 
 
 pip install -r requirements.txt
+
 python main.py
+
 ---
 Python 3.11.2
 
