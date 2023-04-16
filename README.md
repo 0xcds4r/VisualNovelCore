@@ -19,7 +19,7 @@ You can start the engine using the command:
 
 - python main.py
 
-## Building
+## Building (Win)
 
 You can compile an executable for your operating system. First go to the `stable` folder and install `pyinstaller` using the command:
 
