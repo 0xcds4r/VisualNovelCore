@@ -5,6 +5,7 @@ The VisualNovelCore repository contains the source code for the visual novel eng
 Current version: 0.6.1-patch
 
 Download test build (Win) [0.6.1-patch]: https://drive.google.com/file/d/1mK2qAxCAAe36iaRKZYHdBwh78VGr2w2E/view?usp=sharing
+
 Download test build (Win) [0.6-stable]: https://drive.google.com/file/d/1TudiuaH7vTd5MRKU7p_uiQSjoSX-3ALq/view?usp=sharing
 ![image](https://user-images.githubusercontent.com/32211521/231502590-1c1b608c-1bac-4b3c-9c04-3cdf0ae7415b.png)
 
