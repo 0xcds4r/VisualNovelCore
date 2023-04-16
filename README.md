@@ -1,36 +1,45 @@
 # VisualNovelCore
 
-The VisualNovelCore repository contains the source code for the visual novel engine. This engine is written in the Python programming language and is open source. It is designed to create interactive stories where users can interact with characters and make decisions that affect the outcome of the story.
+[![GitHub release](https://img.shields.io/github/release/0xcds4r/VisualNovelCore.svg)](https://GitHub.com/0xcds4r/VisualNovelCore/releases/)
+[![GitHub license](https://img.shields.io/github/license/0xcds4r/VisualNovelCore.svg)](https://github.com/0xcds4r/VisualNovelCore/blob/main/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/0xcds4r/VisualNovelCore.svg)](https://GitHub.com/0xcds4r/VisualNovelCore/issues/)
+[![GitHub stars](https://img.shields.io/github/stars/0xcds4r/VisualNovelCore.svg)](https://GitHub.com/0xcds4r/VisualNovelCore/stargazers/)
 
-Current version: 0.6.1-patch
+VisualNovelCore - это движок для создания интерактивных визуальных новелл на языке программирования Python. Этот проект разрабатывается с использованием открытых исходных кодов.
 
-Download test build (Win) [0.6.1-patch]: https://drive.google.com/file/d/1mK2qAxCAAe36iaRKZYHdBwh78VGr2w2E/view?usp=sharing
+## Установка
 
-Download test build (Win) [0.6-stable]: https://drive.google.com/file/d/1TudiuaH7vTd5MRKU7p_uiQSjoSX-3ALq/view?usp=sharing
-![image](https://user-images.githubusercontent.com/32211521/231502590-1c1b608c-1bac-4b3c-9c04-3cdf0ae7415b.png)
+Перед началом работы вам необходимо установить все зависимости, перечисленные в файле `requirements.txt`. Вы можете это сделать, выполнив команду:
 
-
-
-
-RUN
----
 pip install -r requirements.txt
+
+## Запуск
+
+Вы можете запустить движок, используя команду:
 
 python main.py
 
----
-Python 3.11.2
----
+## Сборка
 
-
-Compile exe:
----
-cd stable
+Вы можете скомпилировать исполняемый файл для своей операционной системы. Сначала перейдите в папку `stable` и установите `pyinstaller`, используя команду:
 
 pip install pyinstaller
 
+Затем выполните одну из следующих команд:
+
 pyinstaller VNCore_Game.spec
 
-***
-or double-click to -> 'build-exe.bat'
-***
+или
+
+откройте build-exe.bat
+
+## Скачивание
+
+Вы можете скачать тестовую версию (Win) движка по следующим ссылкам:
+
+- [0.6.1-patch](https://drive.google.com/file/d/1mK2qAxCAAe36iaRKZYHdBwh78VGr2w2E/view?usp=sharing)
+- [0.6-stable](https://drive.google.com/file/d/1TudiuaH7vTd5MRKU7p_uiQSjoSX-3ALq/view?usp=sharing)
+
+## Лицензия
+
+VisualNovelCore распространяется под лицензией MIT. Подробную информацию можно найти в файле `LICENSE`.
