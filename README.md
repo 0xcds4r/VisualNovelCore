@@ -11,27 +11,27 @@ VisualNovelCore - это движок для создания интеракти
 
 Перед началом работы вам необходимо установить все зависимости, перечисленные в файле `requirements.txt`. Вы можете это сделать, выполнив команду:
 
-pip install -r requirements.txt
+- pip install -r requirements.txt
 
 ## Запуск
 
 Вы можете запустить движок, используя команду:
 
-python main.py
+- python main.py
 
 ## Сборка
 
 Вы можете скомпилировать исполняемый файл для своей операционной системы. Сначала перейдите в папку `stable` и установите `pyinstaller`, используя команду:
 
-pip install pyinstaller
+- pip install pyinstaller
 
 Затем выполните одну из следующих команд:
 
-pyinstaller VNCore_Game.spec
+- pyinstaller VNCore_Game.spec
 
 или
 
-откройте build-exe.bat
+- откройте build-exe.bat
 
 ## Скачивание
 
