@@ -5,41 +5,41 @@
 [![GitHub issues](https://img.shields.io/github/issues/0xcds4r/VisualNovelCore.svg)](https://GitHub.com/0xcds4r/VisualNovelCore/issues/)
 [![GitHub stars](https://img.shields.io/github/stars/0xcds4r/VisualNovelCore.svg)](https://GitHub.com/0xcds4r/VisualNovelCore/stargazers/)
 
-VisualNovelCore - это движок для создания интерактивных визуальных новелл на языке программирования Python. Этот проект разрабатывается с использованием открытых исходных кодов.
+VisualNovelCore is an engine for creating interactive visual novels in the Python programming language. This project is being developed using open source.
 
-## Установка
+## Setup
 
-Перед началом работы вам необходимо установить все зависимости, перечисленные в файле `requirements.txt`. Вы можете это сделать, выполнив команду:
+Before you get started, you need to install all the dependencies listed in the `requirements.txt` file. You can do this by running the command:
 
 - pip install -r requirements.txt
 
-## Запуск
+## Run
 
-Вы можете запустить движок, используя команду:
+You can start the engine using the command:
 
 - python main.py
 
-## Сборка
+## Building
 
-Вы можете скомпилировать исполняемый файл для своей операционной системы. Сначала перейдите в папку `stable` и установите `pyinstaller`, используя команду:
+You can compile an executable for your operating system. First go to the `stable` folder and install `pyinstaller` using the command:
 
 - pip install pyinstaller
 
-Затем выполните одну из следующих команд:
+Then run one of the following commands:
 
 - pyinstaller VNCore_Game.spec
 
-или
+or
 
-- откройте build-exe.bat
+- double-click to build-exe.bat
 
-## Скачивание
+## Download DEMO
 
-Вы можете скачать тестовую версию (Win) движка по следующим ссылкам:
+You can download the demo version (Win) of the engine from the following links:
 
 - [0.6.1-patch](https://drive.google.com/file/d/1mK2qAxCAAe36iaRKZYHdBwh78VGr2w2E/view?usp=sharing)
 - [0.6-stable](https://drive.google.com/file/d/1TudiuaH7vTd5MRKU7p_uiQSjoSX-3ALq/view?usp=sharing)
 
-## Лицензия
+## LICENSE
 
-VisualNovelCore распространяется под лицензией MIT. Подробную информацию можно найти в файле `LICENSE`.
+Visual Novel Core is distributed under the MIT license. Detailed information can be found in the `LICENSE` file.
