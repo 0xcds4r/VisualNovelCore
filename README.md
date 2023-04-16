@@ -1,5 +1,6 @@
 # VisualNovelCore
-Convenient mechanism for creating Visual Novel 2D game projects
+
+The VisualNovelCore repository contains the source code for the visual novel engine. This engine is written in the Python programming language and is open source. It is designed to create interactive stories where users can interact with characters and make decisions that affect the outcome of the story.
 
 Current version: 0.6.1-patch
 
