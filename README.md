@@ -43,3 +43,7 @@ You can download the demo version (Win) of the engine from the following links:
 ## LICENSE
 
 Visual Novel Core is distributed under the MIT license. Detailed information can be found in the `LICENSE` file.
+
+
+## Tags
+Python, visual novel, engine, game development, open source, interactive narrative.
