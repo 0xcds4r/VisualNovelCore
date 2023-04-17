@@ -55,4 +55,4 @@ Visual Novel Core is distributed under the MIT license. Detailed information can
 
 
 ## Tags
-Python, visual novel, engine, game development, open source, interactive narrative.
+Python, lua, json, visual novel, engine, game development, open source, interactive narrative.
