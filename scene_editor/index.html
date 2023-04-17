@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>VNCore Scene Editor</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="script.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/json-tree-viewer@0.1.9/dist/index.min.css" />
+  	<script src="https://unpkg.com/json-tree-viewer@0.1.9/dist/index.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<div class="container">
+		<h1>VNCore Scene Editor</h1>
+		<div class="input-group">
+			<label for="scene-name">Scene Name:</label>
+			<input type="text" id="scene-name">
+		</div>
+		<div class="input-group">
+			<label for="background-image">Background Image:</label>
+			<input type="text" id="background-image">
+		</div>
+		<div class="input-group">
+			<label for="character-name">Character Name:</label>
+			<input type="text" id="character-name">
+		</div>
+		<div class="input-group">
+			<label for="character-image">Character Image:</label>
+			<input type="text" id="character-image">
+		</div>
+		<div class="input-group">
+			<label for="character-position-x">Character Position (X):</label>
+			<input type="number" id="character-position-x">
+		</div>
+		<div class="input-group">
+			<label for="character-position-y">Character Position (Y):</label>
+			<input type="number" id="character-position-y">
+		</div>
+		<div class="input-group">
+			<label for="dialogue-speaker">Dialogue Speaker:</label>
+			<input type="text" id="dialogue-speaker">
+		</div>
+		<div class="input-group">
+			<label for="dialogue-text">Dialogue Text:</label>
+			<input type="text" id="dialogue-text">
+		</div>
+		<div class="button-group">
+			<button id="add-scene-btn">Add Scene</button>
+			<button id="add-character-btn">Add Character</button>
+			<button id="add-dialogue-btn">Add Dialogue</button>
+		</div>
+	</div>
+	<div id="output" contenteditable></div>
+	<div id="output2"></div>
+	
+	<center>
+	<canvas id="canvas" width="1200vw" height="750vh"></canvas></center>
+</body>
+</html>
