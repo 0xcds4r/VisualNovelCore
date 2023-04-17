@@ -4,7 +4,8 @@
 [![GitHub license](https://img.shields.io/github/license/0xcds4r/VisualNovelCore.svg)](https://github.com/0xcds4r/VisualNovelCore/blob/main/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/0xcds4r/VisualNovelCore.svg)](https://GitHub.com/0xcds4r/VisualNovelCore/issues/)
 [![GitHub stars](https://img.shields.io/github/stars/0xcds4r/VisualNovelCore.svg)](https://GitHub.com/0xcds4r/VisualNovelCore/stargazers/)
-[Docs](https://0xcds4r.github.io/VisualNovelCore/)
+[See docs](https://0xcds4r.github.io/VisualNovelCore/)
+
 VisualNovelCore is an engine for creating interactive visual novels in the Python programming language. This project is being developed using open source.
 
 ## Setup
