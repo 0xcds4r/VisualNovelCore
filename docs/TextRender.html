@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>TextRender.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>TextRender.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Log</span> <span class="kn">import</span> <span class="n">Log</span>
+<span class="kn">import</span> <span class="nn">pygame</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">TextElement</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">textMgr</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">textMgr</span> <span class="o">=</span> <span class="n">textMgr</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Example Text&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="s2">&quot;assets/arial.ttf&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">24</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">align</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">bold</span> <span class="o">=</span> <span class="kc">False</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">italic</span> <span class="o">=</span> <span class="kc">False</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">text_color_r</span> <span class="o">=</span> <span class="mi">255</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">text_color_g</span> <span class="o">=</span> <span class="mi">255</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">text_color_b</span> <span class="o">=</span> <span class="mi">255</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">text_color_a</span> <span class="o">=</span> <span class="mi">255</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">bg_color_r</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">bg_color_g</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">bg_color_b</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">bg_color_a</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">stroke_color_r</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">stroke_color_g</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">stroke_color_b</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">stroke_color_a</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">stroke_width</span> <span class="o">=</span> <span class="mi">1</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">255</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">255</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">setAlign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">align</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">align</span> <span class="o">=</span> <span class="n">align</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">setAlpha</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getAlpha</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getAlign</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">align</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">setPositionX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getPositionX</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">setPositionY</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getPositionY</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">setPosition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getPosition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">setText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getText</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">setFont</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="n">path</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getFont</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">font</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">setFontSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-19'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-19'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getFontSize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-20'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-20'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">setBold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bold</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">bold</span> <span class="o">=</span> <span class="n">bold</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-21'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">isBold</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bold</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-22'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-22'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">setItalic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">italic</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">italic</span> <span class="o">=</span> <span class="n">italic</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-23'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">isItalic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">italic</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-24'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-24'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">setTextColor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">text_color_r</span> <span class="o">=</span> <span class="n">r</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">text_color_g</span> <span class="o">=</span> <span class="n">g</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">text_color_b</span> <span class="o">=</span> <span class="n">b</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">text_color_a</span> <span class="o">=</span> <span class="n">a</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-25'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-25'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getTextColor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">el</span><span class="p">):</span>
+		<span class="k">if</span> <span class="n">el</span> <span class="o">==</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_color_r</span>
+
+		<span class="k">if</span> <span class="n">el</span> <span class="o">==</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_color_g</span>
+
+		<span class="k">if</span> <span class="n">el</span> <span class="o">==</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_color_b</span>
+
+		<span class="k">if</span> <span class="n">el</span> <span class="o">==</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_color_a</span>
+
+		<span class="k">return</span> <span class="mi">0</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-26'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-26'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">setBgColor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">bg_color_r</span> <span class="o">=</span> <span class="n">r</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">bg_color_g</span> <span class="o">=</span> <span class="n">g</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">bg_color_b</span> <span class="o">=</span> <span class="n">b</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">bg_color_a</span> <span class="o">=</span> <span class="n">a</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-27'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-27'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getBgColor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">el</span><span class="p">):</span>
+		<span class="k">if</span> <span class="n">el</span> <span class="o">==</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg_color_r</span>
+
+		<span class="k">if</span> <span class="n">el</span> <span class="o">==</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg_color_g</span>
+
+		<span class="k">if</span> <span class="n">el</span> <span class="o">==</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg_color_b</span>
+
+		<span class="k">if</span> <span class="n">el</span> <span class="o">==</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg_color_a</span>
+
+		<span class="k">return</span> <span class="mi">0</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-28'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-28'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">setStrokeColor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">stroke_color_r</span> <span class="o">=</span> <span class="n">r</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">stroke_color_g</span> <span class="o">=</span> <span class="n">g</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">stroke_color_b</span> <span class="o">=</span> <span class="n">b</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">stroke_color_a</span> <span class="o">=</span> <span class="n">a</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-29'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-29'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getStrokeColor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">el</span><span class="p">):</span>
+		<span class="k">if</span> <span class="n">el</span> <span class="o">==</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stroke_color_r</span>
+
+		<span class="k">if</span> <span class="n">el</span> <span class="o">==</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stroke_color_g</span>
+
+		<span class="k">if</span> <span class="n">el</span> <span class="o">==</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stroke_color_b</span>
+
+		<span class="k">if</span> <span class="n">el</span> <span class="o">==</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stroke_color_a</span>
+
+		<span class="k">return</span> <span class="mi">0</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-30'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-30'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">setStrokeWidth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">stroke_width</span> <span class="o">=</span> <span class="n">width</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-31'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-31'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getStrokeWidth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stroke_width</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-32'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-32'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">textMgr</span><span class="o">.</span><span class="n">addText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">align</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bold</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">italic</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_color_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_color_g</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_color_b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_color_a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg_color_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg_color_g</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg_color_b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg_color_a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stroke_color_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stroke_color_g</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stroke_color_b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stroke_color_a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stroke_width</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-33'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-33'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">TextRender</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-34'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-34'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">core</span><span class="p">):</span>
+		<span class="n">Log</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;Initializing TextRender..&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">core</span> <span class="o">=</span> <span class="n">core</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">textElement</span> <span class="o">=</span> <span class="n">TextElement</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-35'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-35'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getCore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">core</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-36'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-36'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getTextElement</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">textElement</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-37'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-37'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getTextWidth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">font_path</span><span class="p">,</span> <span class="n">font_size</span><span class="p">):</span>
+		<span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="n">font_path</span><span class="p">,</span> <span class="n">font_size</span><span class="p">)</span>
+		<span class="n">text_surface</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
+		<span class="k">return</span> <span class="n">text_surface</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-38'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-38'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">addText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">italic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">g</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">bgr</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bgg</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bgb</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bga</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sg</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sb</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sa</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stroke_width</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+		<span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+
+		<span class="n">background</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="k">if</span> <span class="n">bga</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="n">background</span> <span class="o">=</span> <span class="p">(</span><span class="n">bgr</span><span class="p">,</span> <span class="n">bgg</span><span class="p">,</span> <span class="n">bgb</span><span class="p">,</span> <span class="n">bga</span><span class="p">)</span>
+
+		<span class="n">stroke_color</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="k">if</span> <span class="n">sa</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="n">stroke_color</span> <span class="o">=</span> <span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">sg</span><span class="p">,</span> <span class="n">sb</span><span class="p">,</span> <span class="n">sa</span><span class="p">)</span>
+
+		<span class="k">if</span> <span class="n">font</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="k">return</span>
+
+		<span class="n">font_style</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+		<span class="k">if</span> <span class="n">bold</span><span class="p">:</span>
+			<span class="n">font_style</span> <span class="o">+=</span> <span class="s2">&quot;bold &quot;</span>
+		<span class="k">if</span> <span class="n">italic</span><span class="p">:</span>
+			<span class="n">font_style</span> <span class="o">+=</span> <span class="s2">&quot;italic &quot;</span>
+		<span class="n">font_style</span> <span class="o">=</span> <span class="n">font_style</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+		<span class="n">font_obj</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">SysFont</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="n">bold</span><span class="p">,</span> <span class="n">italic</span><span class="o">=</span><span class="n">italic</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">stroke_color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="n">stroke_font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">SysFont</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="n">bold</span><span class="p">,</span> <span class="n">italic</span><span class="o">=</span><span class="n">italic</span><span class="p">)</span>
+			<span class="n">stroke_surface_t</span> <span class="o">=</span> <span class="n">stroke_font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">stroke_color</span><span class="p">,</span> <span class="n">background</span><span class="p">)</span>
+			<span class="n">stroke_surface_b</span> <span class="o">=</span> <span class="n">stroke_font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">stroke_color</span><span class="p">)</span>
+			<span class="n">stroke_surface_l</span> <span class="o">=</span> <span class="n">stroke_font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">stroke_color</span><span class="p">)</span>
+			<span class="n">stroke_surface_r</span> <span class="o">=</span> <span class="n">stroke_font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">stroke_color</span><span class="p">)</span>
+
+			<span class="n">stroke_surface_tr</span> <span class="o">=</span> <span class="n">stroke_font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">stroke_color</span><span class="p">)</span>
+			<span class="n">stroke_surface_tl</span> <span class="o">=</span> <span class="n">stroke_font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">stroke_color</span><span class="p">)</span>
+
+			<span class="n">stroke_surface_br</span> <span class="o">=</span> <span class="n">stroke_font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">stroke_color</span><span class="p">)</span>
+			<span class="n">stroke_surface_bl</span> <span class="o">=</span> <span class="n">stroke_font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">stroke_color</span><span class="p">)</span>
+
+			<span class="n">text_surface</span> <span class="o">=</span> <span class="n">font_obj</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+			<span class="n">text_surface</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getTextElement</span><span class="p">()</span><span class="o">.</span><span class="n">getAlpha</span><span class="p">())</span>
+
+			<span class="n">stroke_surface_t</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getTextElement</span><span class="p">()</span><span class="o">.</span><span class="n">getAlpha</span><span class="p">())</span>
+			<span class="n">stroke_surface_b</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getTextElement</span><span class="p">()</span><span class="o">.</span><span class="n">getAlpha</span><span class="p">())</span>
+			<span class="n">stroke_surface_l</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getTextElement</span><span class="p">()</span><span class="o">.</span><span class="n">getAlpha</span><span class="p">())</span>
+			<span class="n">stroke_surface_r</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getTextElement</span><span class="p">()</span><span class="o">.</span><span class="n">getAlpha</span><span class="p">())</span>
+			<span class="n">stroke_surface_tr</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getTextElement</span><span class="p">()</span><span class="o">.</span><span class="n">getAlpha</span><span class="p">())</span>
+			<span class="n">stroke_surface_tl</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getTextElement</span><span class="p">()</span><span class="o">.</span><span class="n">getAlpha</span><span class="p">())</span>
+			<span class="n">stroke_surface_br</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getTextElement</span><span class="p">()</span><span class="o">.</span><span class="n">getAlpha</span><span class="p">())</span>
+			<span class="n">stroke_surface_bl</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getTextElement</span><span class="p">()</span><span class="o">.</span><span class="n">getAlpha</span><span class="p">())</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">text_surface</span> <span class="o">=</span> <span class="n">font_obj</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">background</span><span class="p">)</span>
+			<span class="n">text_surface</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getTextElement</span><span class="p">()</span><span class="o">.</span><span class="n">getAlpha</span><span class="p">())</span>
+
+		<span class="n">text_rect</span> <span class="o">=</span> <span class="n">text_surface</span><span class="o">.</span><span class="n">get_rect</span><span class="p">()</span>
+		<span class="k">if</span> <span class="n">align</span> <span class="o">==</span> <span class="s1">&#39;left&#39;</span><span class="p">:</span>
+			<span class="n">text_rect</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">x</span>
+		<span class="k">elif</span> <span class="n">align</span> <span class="o">==</span> <span class="s1">&#39;center&#39;</span><span class="p">:</span>
+			<span class="n">text_rect</span><span class="o">.</span><span class="n">centerx</span> <span class="o">=</span> <span class="n">x</span>
+		<span class="k">elif</span> <span class="n">align</span> <span class="o">==</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span>
+			<span class="n">text_rect</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">x</span>
+		<span class="n">text_rect</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">y</span>
+
+		<span class="k">if</span> <span class="n">stroke_surface_r</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">stroke_surface_l</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">stroke_surface_t</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">stroke_surface_b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-39'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-39'>#</a>
+      </div>
+      <p>Log.print(&ldquo;has surface stroke&rdquo;)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-40'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-40'>#</a>
+      </div>
+      <p>RIGHT</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>			<span class="n">stroke_rect_r</span> <span class="o">=</span> <span class="n">stroke_surface_r</span><span class="o">.</span><span class="n">get_rect</span><span class="p">()</span>
+			<span class="n">stroke_rect_r</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">text_rect</span><span class="o">.</span><span class="n">top</span> 
+			<span class="n">stroke_rect_r</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">text_rect</span><span class="o">.</span><span class="n">left</span> <span class="o">+</span> <span class="n">stroke_width</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">getCore</span><span class="p">()</span><span class="o">.</span><span class="n">getRender</span><span class="p">()</span><span class="o">.</span><span class="n">addSurfaceToRenderQueue</span><span class="p">(</span><span class="n">text</span> <span class="o">+</span> <span class="s2">&quot;_stroke_right&quot;</span><span class="p">,</span> <span class="n">stroke_surface_r</span><span class="p">,</span> <span class="n">stroke_rect_r</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-41'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-41'>#</a>
+      </div>
+      <p>LEFT</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>			<span class="n">stroke_rect_l</span> <span class="o">=</span> <span class="n">stroke_surface_l</span><span class="o">.</span><span class="n">get_rect</span><span class="p">()</span>
+			<span class="n">stroke_rect_l</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">text_rect</span><span class="o">.</span><span class="n">top</span> 
+			<span class="n">stroke_rect_l</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">text_rect</span><span class="o">.</span><span class="n">left</span> <span class="o">-</span> <span class="n">stroke_width</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">getCore</span><span class="p">()</span><span class="o">.</span><span class="n">getRender</span><span class="p">()</span><span class="o">.</span><span class="n">addSurfaceToRenderQueue</span><span class="p">(</span><span class="n">text</span> <span class="o">+</span> <span class="s2">&quot;_stroke_left&quot;</span><span class="p">,</span> <span class="n">stroke_surface_l</span><span class="p">,</span> <span class="n">stroke_rect_l</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-42'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-42'>#</a>
+      </div>
+      <p>TOP</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>			<span class="n">stroke_rect_t</span> <span class="o">=</span> <span class="n">stroke_surface_t</span><span class="o">.</span><span class="n">get_rect</span><span class="p">()</span>
+			<span class="n">stroke_rect_t</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">text_rect</span><span class="o">.</span><span class="n">top</span> <span class="o">-</span> <span class="n">stroke_width</span>
+			<span class="n">stroke_rect_t</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">text_rect</span><span class="o">.</span><span class="n">left</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">getCore</span><span class="p">()</span><span class="o">.</span><span class="n">getRender</span><span class="p">()</span><span class="o">.</span><span class="n">addSurfaceToRenderQueue</span><span class="p">(</span><span class="n">text</span> <span class="o">+</span> <span class="s2">&quot;_stroke_top&quot;</span><span class="p">,</span> <span class="n">stroke_surface_t</span><span class="p">,</span> <span class="n">stroke_rect_t</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-43'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-43'>#</a>
+      </div>
+      <p>BOTTOM</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>			<span class="n">stroke_rect_b</span> <span class="o">=</span> <span class="n">stroke_surface_t</span><span class="o">.</span><span class="n">get_rect</span><span class="p">()</span>
+			<span class="n">stroke_rect_b</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">text_rect</span><span class="o">.</span><span class="n">top</span> <span class="o">+</span> <span class="n">stroke_width</span>
+			<span class="n">stroke_rect_b</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">text_rect</span><span class="o">.</span><span class="n">left</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">getCore</span><span class="p">()</span><span class="o">.</span><span class="n">getRender</span><span class="p">()</span><span class="o">.</span><span class="n">addSurfaceToRenderQueue</span><span class="p">(</span><span class="n">text</span> <span class="o">+</span> <span class="s2">&quot;_stroke_bottom&quot;</span><span class="p">,</span> <span class="n">stroke_surface_b</span><span class="p">,</span> <span class="n">stroke_rect_b</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-44'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-44'>#</a>
+      </div>
+      <p>TOP RIGHT</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>			<span class="n">stroke_rect_tr</span> <span class="o">=</span> <span class="n">stroke_surface_tr</span><span class="o">.</span><span class="n">get_rect</span><span class="p">()</span>
+			<span class="n">stroke_rect_tr</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">text_rect</span><span class="o">.</span><span class="n">top</span> <span class="o">-</span> <span class="n">stroke_width</span>
+			<span class="n">stroke_rect_tr</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">text_rect</span><span class="o">.</span><span class="n">left</span> <span class="o">+</span> <span class="n">stroke_width</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">getCore</span><span class="p">()</span><span class="o">.</span><span class="n">getRender</span><span class="p">()</span><span class="o">.</span><span class="n">addSurfaceToRenderQueue</span><span class="p">(</span><span class="n">text</span> <span class="o">+</span> <span class="s2">&quot;_stroke_topright&quot;</span><span class="p">,</span> <span class="n">stroke_surface_tr</span><span class="p">,</span> <span class="n">stroke_rect_tr</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-45'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-45'>#</a>
+      </div>
+      <p>TOP LEFT</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>			<span class="n">stroke_rect_tl</span> <span class="o">=</span> <span class="n">stroke_surface_tl</span><span class="o">.</span><span class="n">get_rect</span><span class="p">()</span>
+			<span class="n">stroke_rect_tl</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">text_rect</span><span class="o">.</span><span class="n">top</span> <span class="o">-</span> <span class="n">stroke_width</span>
+			<span class="n">stroke_rect_tl</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">text_rect</span><span class="o">.</span><span class="n">left</span> <span class="o">-</span> <span class="n">stroke_width</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">getCore</span><span class="p">()</span><span class="o">.</span><span class="n">getRender</span><span class="p">()</span><span class="o">.</span><span class="n">addSurfaceToRenderQueue</span><span class="p">(</span><span class="n">text</span> <span class="o">+</span> <span class="s2">&quot;_stroke_topleft&quot;</span><span class="p">,</span> <span class="n">stroke_surface_tl</span><span class="p">,</span> <span class="n">stroke_rect_tl</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-46'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-46'>#</a>
+      </div>
+      <p>BOTTOM RIGHT</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>			<span class="n">stroke_rect_br</span> <span class="o">=</span> <span class="n">stroke_surface_br</span><span class="o">.</span><span class="n">get_rect</span><span class="p">()</span>
+			<span class="n">stroke_rect_br</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">text_rect</span><span class="o">.</span><span class="n">top</span> <span class="o">+</span> <span class="n">stroke_width</span>
+			<span class="n">stroke_rect_br</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">text_rect</span><span class="o">.</span><span class="n">left</span> <span class="o">+</span> <span class="n">stroke_width</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">getCore</span><span class="p">()</span><span class="o">.</span><span class="n">getRender</span><span class="p">()</span><span class="o">.</span><span class="n">addSurfaceToRenderQueue</span><span class="p">(</span><span class="n">text</span> <span class="o">+</span> <span class="s2">&quot;_stroke_bottomright&quot;</span><span class="p">,</span> <span class="n">stroke_surface_br</span><span class="p">,</span> <span class="n">stroke_rect_br</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-47'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-47'>#</a>
+      </div>
+      <p>BOTTOM LEFT</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>			<span class="n">stroke_rect_bl</span> <span class="o">=</span> <span class="n">stroke_surface_bl</span><span class="o">.</span><span class="n">get_rect</span><span class="p">()</span>
+			<span class="n">stroke_rect_bl</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">text_rect</span><span class="o">.</span><span class="n">top</span> <span class="o">+</span> <span class="n">stroke_width</span>
+			<span class="n">stroke_rect_bl</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">text_rect</span><span class="o">.</span><span class="n">left</span> <span class="o">-</span> <span class="n">stroke_width</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">getCore</span><span class="p">()</span><span class="o">.</span><span class="n">getRender</span><span class="p">()</span><span class="o">.</span><span class="n">addSurfaceToRenderQueue</span><span class="p">(</span><span class="n">text</span> <span class="o">+</span> <span class="s2">&quot;_stroke_bottomleft&quot;</span><span class="p">,</span> <span class="n">stroke_surface_bl</span><span class="p">,</span> <span class="n">stroke_rect_bl</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">getCore</span><span class="p">()</span><span class="o">.</span><span class="n">getRender</span><span class="p">()</span><span class="o">.</span><span class="n">addSurfaceToRenderQueue</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">text_surface</span><span class="p">,</span> <span class="n">text_rect</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">text_rect</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

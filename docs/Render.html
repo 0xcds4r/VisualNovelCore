@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>Render.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>Render.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">from</span> <span class="nn">pygame</span> <span class="kn">import</span> <span class="n">mixer</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+
+<span class="kn">from</span> <span class="nn">Log</span> <span class="kn">import</span> <span class="n">Log</span>
+<span class="kn">from</span> <span class="nn">SpritesRender</span> <span class="kn">import</span> <span class="n">Sprites</span>
+<span class="kn">from</span> <span class="nn">TextRender</span> <span class="kn">import</span> <span class="n">TextRender</span>
+<span class="kn">from</span> <span class="nn">ButtonRender</span> <span class="kn">import</span> <span class="n">ButtonRender</span>
+<span class="kn">from</span> <span class="nn">FontHelper</span> <span class="kn">import</span> <span class="n">FontHelper</span>
+<span class="kn">from</span> <span class="nn">ImageRender</span> <span class="kn">import</span> <span class="n">ImageRender</span>
+<span class="kn">from</span> <span class="nn">Animation</span> <span class="kn">import</span> <span class="n">AnimationRenderer</span><span class="p">,</span> <span class="n">Animation</span><span class="p">,</span> <span class="n">FadeAnimation</span>
+<span class="kn">from</span> <span class="nn">DelayNotification</span> <span class="kn">import</span> <span class="n">DelayNotification</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>render flags</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">RenderData</span> <span class="kn">import</span> <span class="o">*</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>video modes</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">VIDEO_MODES</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="p">(</span><span class="mi">1680</span><span class="p">,</span> <span class="mi">1050</span><span class="p">),</span> <span class="p">(</span><span class="mi">1600</span><span class="p">,</span> <span class="mi">1024</span><span class="p">),</span> <span class="p">(</span><span class="mi">1600</span><span class="p">,</span> <span class="mi">900</span><span class="p">),</span> <span class="p">(</span><span class="mi">1440</span><span class="p">,</span> <span class="mi">900</span><span class="p">),</span> <span class="p">(</span><span class="mi">1366</span><span class="p">,</span> <span class="mi">768</span><span class="p">),</span> <span class="p">(</span><span class="mi">1360</span><span class="p">,</span> <span class="mi">768</span><span class="p">),</span> <span class="p">(</span><span class="mi">1280</span><span class="p">,</span> <span class="mi">1024</span><span class="p">),</span> <span class="p">(</span><span class="mi">1280</span><span class="p">,</span> <span class="mi">960</span><span class="p">),</span> <span class="p">(</span><span class="mi">1280</span><span class="p">,</span> <span class="mi">800</span><span class="p">),</span> <span class="p">(</span><span class="mi">1280</span><span class="p">,</span> <span class="mi">768</span><span class="p">),</span> <span class="p">(</span><span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">),</span> <span class="p">(</span><span class="mi">1176</span><span class="p">,</span> <span class="mi">664</span><span class="p">),</span> <span class="p">(</span><span class="mi">1152</span><span class="p">,</span> <span class="mi">864</span><span class="p">),</span> <span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">768</span><span class="p">),</span> <span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">),</span> <span class="p">(</span><span class="mi">720</span><span class="p">,</span> <span class="mi">576</span><span class="p">),</span> <span class="p">(</span><span class="mi">720</span><span class="p">,</span> <span class="mi">480</span><span class="p">),</span> <span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">)]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">RenderFlags</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">render_flags</span> <span class="o">=</span> <span class="mi">0</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">reset_flags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">render_flags</span> <span class="o">=</span> <span class="mi">0</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">add_flag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flag</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">render_flags</span> <span class="o">|=</span> <span class="n">flag</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">set_flags_by_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">flag_consts</span><span class="p">):</span>
+		<span class="k">for</span> <span class="n">flag_const</span> <span class="ow">in</span> <span class="n">flag_consts</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">render_flags</span> <span class="o">|=</span> <span class="n">flag_const</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">set_flag_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flag</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+		<span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">render_flags</span> <span class="o">|=</span> <span class="n">flag</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">render_flags</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">flag</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">set_flags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">flag_expr</span><span class="p">):</span>
+		<span class="n">flag_consts</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">flag</span> <span class="ow">in</span> <span class="n">flag_expr</span><span class="p">:</span>
+			<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">flag</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+				<span class="n">flag_consts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+			<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">flag</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+				<span class="k">for</span> <span class="n">const_name</span> <span class="ow">in</span> <span class="n">flag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">):</span>
+					<span class="n">const_name</span> <span class="o">=</span> <span class="n">const_name</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+					<span class="k">if</span> <span class="n">const_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;FLAG_&#39;</span><span class="p">):</span>
+						<span class="n">const_value</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">const_name</span><span class="p">)</span>
+						<span class="k">if</span> <span class="n">const_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+							<span class="n">flag_consts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">const_value</span><span class="p">)</span>
+
+		<span class="k">for</span> <span class="n">flag_const</span> <span class="ow">in</span> <span class="n">flag_consts</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">render_flags</span> <span class="o">|=</span> <span class="n">flag_const</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">is_flag_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flag_const</span><span class="p">):</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_flags</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">return</span> <span class="kc">False</span>
+
+		<span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">render_flags</span> <span class="o">&amp;</span> <span class="n">flag_const</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Render</span><span class="p">():</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">core</span><span class="p">):</span>
+		<span class="n">Log</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;Initializing Render..&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">core</span> <span class="o">=</span> <span class="n">core</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">textRender</span> <span class="o">=</span> <span class="n">TextRender</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">fontHelper</span> <span class="o">=</span> <span class="n">FontHelper</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">renderFlags</span> <span class="o">=</span> <span class="n">RenderFlags</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mi">1920</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="mi">1080</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">surface</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">screen</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">clock</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">sprites</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">imageRender</span> <span class="o">=</span> <span class="n">ImageRender</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">animationRenderer</span> <span class="o">=</span> <span class="n">AnimationRenderer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">buttonRender</span> <span class="o">=</span> <span class="n">ButtonRender</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">displayFlags</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">surfaceFlags</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">renderQueue</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">notifications</span> <span class="o">=</span> <span class="p">[]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">notify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Sample notify text&quot;</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span> <span class="n">g</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span> <span class="n">br</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bg</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bb</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ba</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">font</span> <span class="o">=</span> <span class="s2">&quot;assets/arial.ttf&quot;</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">5000</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">notifications</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DelayNotification</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">),</span> <span class="p">(</span><span class="n">br</span><span class="p">,</span> <span class="n">bg</span><span class="p">,</span> <span class="n">bb</span><span class="p">,</span> <span class="n">ba</span><span class="p">),</span> <span class="n">font</span><span class="p">,</span> <span class="n">font_size</span><span class="p">,</span> <span class="n">delay</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getButtonManager</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonRender</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getAnimationManager</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">animationRenderer</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getImageManager</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">imageRender</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getRenderFlags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">renderFlags</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getSpritesManager</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-19'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-19'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getFontManager</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fontHelper</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-20'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-20'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getTextManager</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">textRender</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-21'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">hasDisplayFlags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">displayFlags</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">return</span> <span class="kc">True</span>
+		<span class="k">return</span> <span class="kc">False</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-22'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-22'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">hasSurfaceFlags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">surfaceFlags</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">return</span> <span class="kc">True</span>
+		<span class="k">return</span> <span class="kc">False</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-23'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">setDisplayFlags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flags</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">displayFlags</span> <span class="o">=</span> <span class="n">flags</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-24'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-24'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">setSurfaceFlags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flags</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">surfaceFlags</span> <span class="o">=</span> <span class="n">flags</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-25'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-25'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">setScreenSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">size</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-26'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-26'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">setScreenSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-27'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-27'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">Initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">Log</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;Initializing Display &amp; Surface..&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="mi">1</span>
+		<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+		<span class="n">mixer</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRenderFlags</span><span class="p">()</span><span class="o">.</span><span class="n">is_flag_set</span><span class="p">(</span><span class="n">FLAG_USE_DEFAULT_DISPLAY_FLAGS</span><span class="p">):</span>
+			<span class="n">Log</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;Using default display flags&quot;</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">setDisplayFlags</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">RESIZABLE</span> <span class="o">|</span> <span class="n">pygame</span><span class="o">.</span><span class="n">DOUBLEBUF</span><span class="p">)</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">hasDisplayFlags</span><span class="p">():</span>
+				<span class="n">Log</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[bold red]Warning: no display flags[/]&quot;</span><span class="p">)</span>
+
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRenderFlags</span><span class="p">()</span><span class="o">.</span><span class="n">is_flag_set</span><span class="p">(</span><span class="n">FLAG_USE_DEFAULT_SURFACE_FLAGS</span><span class="p">):</span>
+			<span class="n">Log</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;Using default surface flags&quot;</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">setSurfaceFlags</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">SRCALPHA</span><span class="p">)</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">hasSurfaceFlags</span><span class="p">():</span>
+				<span class="n">Log</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[bold red]Warning: no surface flags[/]&quot;</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getScreenSize</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDisplayFlags</span><span class="p">(),</span> <span class="n">vsync</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">isVSyncEnabled</span><span class="p">())</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">surface</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getScreenSize</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSurfaceFlags</span><span class="p">())</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">sprites</span> <span class="o">=</span> <span class="n">Sprites</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">surface</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">surface</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">alpha_surface</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">get_size</span><span class="p">(),</span> <span class="n">pygame</span><span class="o">.</span><span class="n">SRCALPHA</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">alpha_surface</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>  <span class="c1"># Fill with a transparent white color</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">alpha_surface</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRenderFlags</span><span class="p">()</span><span class="o">.</span><span class="n">is_flag_set</span><span class="p">(</span><span class="n">FLAG_DONT_LOAD_DEFAULT_FONT</span><span class="p">):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">getFontManager</span><span class="p">()</span><span class="o">.</span><span class="n">loadDefaultFont</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="mi">2</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-28'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-28'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">renderNonRQ</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRenderFlags</span><span class="p">()</span><span class="o">.</span><span class="n">is_flag_set</span><span class="p">(</span><span class="n">FLAG_DONT_AUTO_RENDER_IMAGES</span><span class="p">):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">getSpritesManager</span><span class="p">()</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">getImageManager</span><span class="p">()</span><span class="o">.</span><span class="n">renderImages</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-29'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-29'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">renderNotify</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">for</span> <span class="n">notify</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">notifications</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">notify</span><span class="p">:</span>
+				<span class="k">if</span> <span class="ow">not</span> <span class="n">notify</span><span class="o">.</span><span class="n">show</span><span class="p">():</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">notifications</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">notify</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-30'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-30'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">renderAll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">dt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getCore</span><span class="p">()</span><span class="o">.</span><span class="n">getFPS</span><span class="p">())</span> <span class="o">/</span> <span class="mf">1000.0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">getAnimationManager</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">getDisplay</span><span class="p">()</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">renderNonRQ</span><span class="p">()</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">renderNotify</span><span class="p">()</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">renderRQ</span><span class="p">()</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">getAnimationManager</span><span class="p">()</span><span class="o">.</span><span class="n">draw_all</span><span class="p">()</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">getCore</span><span class="p">()</span><span class="o">.</span><span class="n">callLuaEventInAll</span><span class="p">(</span><span class="s2">&quot;onGameRender&quot;</span><span class="p">)</span>
+		
+		<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+		<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+		<span class="k">return</span> <span class="kc">True</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-31'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-31'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">renderRQ</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">for</span> <span class="n">data_name</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">renderQueue</span><span class="p">):</span>
+			<span class="n">surface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">renderQueue</span><span class="p">[</span><span class="n">data_name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+			<span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">renderQueue</span><span class="p">[</span><span class="n">data_name</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">renderSurface</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+			<span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">renderQueue</span><span class="p">[</span><span class="n">data_name</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-32'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-32'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">addSurfaceToRenderQueue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">_surface</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">renderQueue</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">_surface</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-33'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-33'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">addSurfaceToRenderQueuePos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">_surface</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">renderQueue</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">_surface</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-34'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-34'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">renderSurface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_surface</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">getDisplay</span><span class="p">()</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">_surface</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-35'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-35'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getScreenSize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-36'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-36'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getScreenWidth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-37'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-37'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getScreenHeight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-38'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-38'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getClock</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clock</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-39'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-39'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getDisplay</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">screen</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-40'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-40'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getSurface</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">surface</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-41'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-41'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getDisplayFlags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">displayFlags</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-42'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-42'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getSurfaceFlags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">surfaceFlags</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-43'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-43'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">isVSyncEnabled</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRenderFlags</span><span class="p">()</span><span class="o">.</span><span class="n">is_flag_set</span><span class="p">(</span><span class="n">FLAG_USE_VSYNC</span><span class="p">):</span>
+			<span class="k">return</span> <span class="mi">0</span>
+
+		<span class="n">Log</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;[bold red]Warning: VSync enabled![/]&quot;</span><span class="p">)</span>
+		<span class="k">return</span> <span class="mi">1</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-44'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-44'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">addRect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;rect&quot;</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span> <span class="n">g</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">100</span><span class="p">):</span>
+		<span class="n">temp_surface</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">((</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">pygame</span><span class="o">.</span><span class="n">SRCALPHA</span><span class="p">)</span>
+		<span class="n">temp_surface</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addSurfaceToRenderQueue</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">temp_surface</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-45'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-45'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">addCircle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;circle&quot;</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span> <span class="n">g</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">bx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bw</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bh</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">border_width</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">br</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bg</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bb</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ba</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+		<span class="n">circle_surface</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">((</span><span class="n">radius</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">radius</span> <span class="o">*</span> <span class="mi">2</span><span class="p">),</span> <span class="n">pygame</span><span class="o">.</span><span class="n">SRCALPHA</span><span class="p">)</span>
+		<span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">circle_surface</span><span class="p">,</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">a</span><span class="p">),</span> <span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">radius</span><span class="p">),</span> <span class="n">radius</span><span class="p">)</span>
+
+		<span class="k">if</span> <span class="n">border_width</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">circle_surface</span><span class="p">,</span> <span class="p">(</span><span class="n">br</span><span class="p">,</span> <span class="n">bg</span><span class="p">,</span> <span class="n">bb</span><span class="p">,</span> <span class="n">ba</span><span class="p">),</span> <span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">radius</span><span class="p">),</span> <span class="n">radius</span><span class="p">,</span> <span class="n">border_width</span><span class="p">)</span>
+
+		<span class="k">if</span> <span class="n">bx</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">bw</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="n">bounds_surface</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">((</span><span class="n">bw</span><span class="p">,</span> <span class="n">bh</span><span class="p">),</span> <span class="n">pygame</span><span class="o">.</span><span class="n">SRCALPHA</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">addSurfaceToRenderQueue</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_bounds&quot;</span><span class="p">,</span> <span class="n">bounds_surface</span><span class="p">,</span> <span class="p">(</span><span class="n">bx</span><span class="p">,</span> <span class="n">by</span><span class="p">))</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">addSurfaceToRenderQueue</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">circle_surface</span><span class="p">,</span> <span class="p">(</span><span class="n">bx</span> <span class="o">+</span> <span class="n">x</span> <span class="o">-</span> <span class="n">radius</span><span class="p">,</span> <span class="n">by</span> <span class="o">+</span> <span class="n">y</span> <span class="o">-</span> <span class="n">radius</span><span class="p">))</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">addSurfaceToRenderQueue</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">circle_surface</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">radius</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="n">radius</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-46'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-46'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">def</span> <span class="nf">getCore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">core</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>
