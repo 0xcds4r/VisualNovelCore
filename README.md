@@ -8,6 +8,9 @@
 
 VisualNovelCore is an engine for creating interactive visual novels in the Python programming language. This project is being developed using open source.
 
+## Scene Editor
+- https://0xcds4r.github.io/VNCSceneEditor/
+
 ## Setup
 
 Before you get started, you need to install all the dependencies listed in the `requirements.txt` file. You can do this by running the command:
